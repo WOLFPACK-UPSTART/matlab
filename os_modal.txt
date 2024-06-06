@@ -1,5 +1,7 @@
 https://justpaste.it/os-shell
 
+https://justpaste.it/ealrb
+
 1.Addition of 3 numbers
 read -p "Enter first number: " num1
 read -p "Enter second number: " num2
