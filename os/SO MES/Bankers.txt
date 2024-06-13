@@ -1,0 +1,81 @@
+#include <stdio.h>
+#define max_p 10
+#define max_r 10
+int avail[max_r], max[max_p][max_r], alloc[max_p][max_r], need[max_p][max_r], work[max_r], finish[max_p], n_processes, n_resources;
+void initialize() {
+    printf("Enter the number of processes: ");
+    scanf("%d", &n_processes);
+    printf("Enter the number of resources: ");
+    scanf("%d", &n_resources);
+    printf("Enter the available resources:\n");
+    for (int i = 0; i < n_resources; i++)
+        scanf("%d", &avail[i]);
+    for (int i = 0; i < n_processes; i++) {
+        printf("Enter the maximum resources needed for process %d:\n", i);
+        for (int j = 0; j < n_resources; j++)
+            scanf("%d", &max[i][j]);
+    }
+    for (int i = 0; i < n_processes; i++) {
+        printf("Enter the allocated resources for process %d:\n", i);
+        for (int j = 0; j < n_resources; j++)
+            scanf("%d", &alloc[i][j]);
+    }
+    for (int i = 0; i < n_processes; i++)
+        for (int j = 0; j < n_resources; j++)
+            need[i][j] = max[i][j] - alloc[i][j];
+}
+void printNeedMatrix() {
+    printf("Need Matrix:\n");
+    for (int i = 0; i < n_processes; i++) {
+        printf("P%d: ", i);
+        for (int j = 0; j < n_resources; j++)
+            printf("%d ", need[i][j]);
+        printf("\n");
+    }
+}
+int safe() {
+    int work[max_r];
+    int safe_seq[max_p];
+    int count = 0;
+    for (int i = 0; i < n_resources; i++)
+        work[i] = avail[i];
+    for (int i = 0; i < n_processes; i++)
+        finish[i] = 0;
+    while (count < n_processes) {
+        int found = 0;
+        for (int i = 0; i < n_processes; i++) {
+            if (finish[i] == 0) {
+                int j;
+                for (j = 0; j < n_resources; j++) {
+                    if (need[i][j] > work[j])
+                        break;
+                }
+                if (j == n_resources) {
+                    for (int k = 0; k < n_resources; k++)
+                        work[k] += alloc[i][k];
+                    safe_seq[count++] = i;
+                    finish[i] = 1;
+                    found = 1;
+                }
+            }
+        }
+        if (found == 0)
+            break;
+    }
+    if (count < n_processes) {
+        printf("System is unsafe!\n");
+        return 0;
+    } else {
+        printf("System is safe.\nSafe sequence is: ");
+        for (int i = 0; i < n_processes; i++)
+            printf("P%d\t", safe_seq[i]);
+        printf("\n");
+        return 1;
+    }
+}
+int main() {
+    initialize();
+    printNeedMatrix();
+    safe();
+    return 0;
+}

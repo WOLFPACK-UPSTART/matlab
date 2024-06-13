@@ -1,0 +1,27 @@
+#include <stdio.h>
+#define MAX_PAGES 100
+int main(){
+    int page_table [MAX_PAGES],num_pages,page_number, offset;
+    printf("Enter the number of pages in the page table:");
+    scanf("%d", &num_pages);
+    printf("Enter the frame address for each page:\n");
+    for (int i=0;i < num_pages ; i++){
+        printf("Page %d:", i);
+        scanf("%d", & page_table[i]);
+    }
+    printf ("Enter the Logical address (page numbers and offset): ");
+    scanf("%d %d", &page_number, &offset);
+    if (page_number >= num_pages) {
+        printf("Error: Page number out of bounds \n");
+        return 1;
+    }
+    int frame_address = page_table [page_number];
+    int physical_address = frame_address + offset;
+    printf("Logical Addres:%d\n", physical_address);
+    printf("Page Table: \n");
+    for (int i=0;i<num_pages; i++){
+        printf ("Page %d -> starting address %d\n", page_table[i]);
+    }
+    printf("Physical address:%d", physical_address);
+    return 0;
+}

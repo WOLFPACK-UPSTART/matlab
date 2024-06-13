@@ -1,0 +1,59 @@
+import java.util.Scanner;
+public class ProducerConsumer {
+    static int mutex, full, empty, front, rear, buffer_size;
+    static int[] queue = new int[100];
+    static void producer(int item) {
+        --mutex;
+        queue[rear] = item;
+        rear = (rear + 1) % buffer_size;
+        ++full;
+        --empty;
+        System.out.println("\nProducer produces item " + item);
+        ++mutex;
+    }
+    static void consumer() {
+        --mutex;
+        System.out.println("\nConsumer consumes item " + queue[front]);
+        front = (front + 1) % buffer_size;
+        --full;
+        ++empty;
+        ++mutex;
+    }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n;
+        System.out.print("Enter the buffer size: ");
+        buffer_size = scanner.nextInt();
+        mutex = 1;
+        full = 0;
+        empty = buffer_size;
+        front = 0;
+        rear = 0;
+        System.out.println("\n1. Press 1 for Producer \n2. Press 2 for Consumer \n3. Press 3 for Exit");
+        while (true) {
+            System.out.print("\nEnter your choice:");
+            n = scanner.nextInt();
+            switch (n) {
+                case 1:
+                    if ((mutex == 1) && (empty!= 0)) {
+                        System.out.print("Enter the item to produce: ");
+                        int item = scanner.nextInt();
+                        producer(item);
+                    } else {
+                        System.out.println("Buffer is full!");
+                    }
+                    break;
+                case 2:
+                    if ((mutex == 1) && (full!= 0)) {
+                        consumer();
+                    } else {
+                        System.out.println("Buffer is empty!");
+                    }
+                    break;
+                case 3:
+                    System.exit(0);
+                    break;
+            }
+        }
+    }
+}
