@@ -1,0 +1,146 @@
+___________________________________________
+|How to execute and run a shell program:   |
+|==========================================|
+|vi filename.sh			                  	   |
+|Esc -> ":wq"				                       |
+|bash filename.sh		                  	   |
+|__________________________________________|
+
+___________________________________________
+|How to execute and run a C program:	     |
+|==========================================|
+|vi filename.c 				                     |
+|Esc -> ":wq"				                       |
+|gcc filename.c -o filename		             |
+|./filename				                         |
+|__________________________________________|
+
+___________________________________________
+|How to execute and run a Java program:	   |
+|==========================================|
+|vi filename.java			                     |
+|Esc -> ":wq"				                       |
+|javac filename.java		              	   |
+|java filename			                  	   |
+|__________________________________________|
+
+SHELL PROGRAMS
+
+1)Largest of three numbers
+
+echo "Enter three numbers:"
+read num1
+read num2
+read num3
+if [ $num1 -gt $num2 ] && [ $num1 -gt $num3 ]; then
+    echo "$num1 is the largest number."
+elif [ $num2 -gt $num1 ] && [ $num2 -gt $num3 ]; then
+    echo "$num2 is the largest number."
+else
+    echo "$num3 is the largest number."
+fi
+----------------------------------------------------------------------------------------------------------
+
+2)Factorial
+
+echo "Enter a number"
+read num
+fact=1
+temp=$num
+while [ $temp -gt 1 ]
+do
+  fact=$((fact * temp))
+  temp=$((temp - 1))
+done
+echo "Factorial of $num is $fact"
+----------------------------------------------------------------------------------------------------------
+
+3)Armstrong Number
+
+echo "Enter A Number: "
+read  n
+arm=0
+temp=$n
+while [ "$n" -ne 0 ]; do
+    r=$((n % 10))
+    arm=$((arm + r * r * r))
+    n=$((n / 10))
+done
+if [ $arm -eq "$temp" ]; then
+    echo "$temp is an Armstrong number"
+else
+    echo "$temp is not an Armstrong number"
+fi
+----------------------------------------------------------------------------------------------------------
+
+4)Sums of digits of an integer
+
+echo "Enter a Number:"
+read n
+temp=$n
+sd=0
+sum=0
+while [ $n -gt 0 ]
+do
+sd=$(( $n % 10 ))
+n=$(( $n / 10 ))
+sum=$(( $sum + $sd ))
+done
+echo "Sum is $sum"
+----------------------------------------------------------------------------------------------------------
+
+5)Reverse an integer
+
+echo "Enter a Number:"
+read n
+num=0
+while [ $n -gt 0 ]
+do
+num=$(expr $num \* 10)
+k=$(expr $n % 10)
+num=$(expr $num + $k)
+n=$(expr $n / 10)
+done
+echo "Reversed number is $num"
+----------------------------------------------------------------------------------------------------------
+
+6)Fibonacci
+
+echo "Enter the number of terms: "
+read n
+a=0
+b=1
+echo "Fibonacci sequence up to $n terms: "
+for (( i=0; i<n; i++ ))
+do
+    echo -n "$a "
+    fn=$((a + b))
+    a=$b
+    b=$fn
+done
+----------------------------------------------------------------------------------------------------------
+
+7)String search
+
+echo "Enter the main string:"
+read mainstring
+echo "Enter the substring to search:"
+read substring
+if [[ "$mainstring" == *"$substring"* ]]; then
+  index=$(awk -v a="$mainstring" -v b="$substring" 'BEGIN{print index(a,b)}')
+  echo "The substring '$substring' was found in the main string '$mainstring' at index $((index - 1))."
+else
+  echo "The substring '$substring' was not found in the main string."
+fi
+----------------------------------------------------------------------------------------------------------
+
+8)Appending contents of a file
+
+echo "Enter the initial content:"
+read initial_content
+echo "Enter the content to append:"
+read append_content
+combined_content="${initial_content}${append_content}"
+echo "Combined content:"
+echo "$combined_content"
+----------------------------------------------------------------------------------------------------------
